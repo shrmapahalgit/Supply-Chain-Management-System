@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodFlow | Supply Chain</title><link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">F</div><div><b>FoodFlow</b><small>SUPPLY CHAIN OS</small></div></div>
+    <div class="nav-label">WORKSPACE</div>
+    <button class="nav-item active" data-view="dashboard"><span>▦</span> Overview</button>
+    <button class="nav-item" data-view="products"><span>▤</span> Inventory <i id="nav-low">0</i></button>
+    <button class="nav-item" data-view="suppliers"><span>♧</span> Suppliers</button>
+    <button class="nav-item" data-view="orders"><span>⇄</span> Purchase orders</button>
+    <div class="sidebar-bottom"><div class="status-dot"></div><div><b>Local workspace</b><small>Connected to MySQL API</small></div></div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">OPERATIONS / <span id="crumb">OVERVIEW</span></div>
+        <h1 id="page-title">Supply chain overview</h1>
+      </div>
+      <div class="top-actions">
+        <span class="live-pill"><span></span> SYSTEM LIVE</span>
+        <div id="user-profile-widget" class="user-profile-wrap">
+          <div class="avatar" id="user-avatar">--</div>
+          <div class="user-meta">
+            <span class="user-name" id="user-display-name">Loading...</span>
+            <span class="user-role-badge" id="user-role-badge">OPERATOR</span>
+          </div>
+          <button class="logout-btn" onclick="logout()" title="Sign out of FoodFlow">
+            <span>↪</span> Sign out
+          </button>
+        </div>
+      </div>
+    </header>
+    <section id="dashboard-view" class="view">
+      <div class="welcome"><div><div class="eyebrow light">THURSDAY, OPERATIONS DESK</div><h2>Good work starts with a<br><em>well-stocked kitchen.</em></h2><p>Track fresh inventory, suppliers and incoming orders from one place.</p></div><div class="welcome-art"><div class="sun"></div><div class="hill h1"></div><div class="hill h2"></div><div class="crate">✳</div></div></div>
+      <div class="section-heading"><div><h3>Operations at a glance</h3><p>Your supply chain, in real time</p></div><button class="btn primary" onclick="openProductModal()">＋ Add product</button></div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-top"><span class="stat-icon green">▤</span><span class="stat-caption">CATALOGUE</span></div><strong id="stat-products">—</strong><span class="stat-label">Products tracked</span><div class="stat-foot">Across all categories</div></div>
+        <div class="stat-card"><div class="stat-top"><span class="stat-icon orange">♧</span><span class="stat-caption">NETWORK</span></div><strong id="stat-suppliers">—</strong><span class="stat-label">Active suppliers</span><div class="stat-foot">Your sourcing partners</div></div>
+        <div class="stat-card"><div class="stat-top"><span class="stat-icon blue">⇄</span><span class="stat-caption">PROCUREMENT</span></div><strong id="stat-orders">—</strong><span class="stat-label">Purchase orders</span><div class="stat-foot">All order statuses</div></div>
+        <div class="stat-card alert-stat"><div class="stat-top"><span class="stat-icon red">!</span><span class="stat-caption">NEEDS ATTENTION</span></div><strong id="stat-low">—</strong><span class="stat-label">Low-stock items</span><div class="stat-foot">At or below reorder level</div></div>
+      </div>
+      <div class="content-grid"><div class="panel"><div class="panel-head"><div><h3>Inventory watchlist</h3><p>Products that may need replenishment</p></div><button class="text-btn" onclick="showView('products')">View inventory ↗</button></div><div id="watchlist" class="watchlist"></div></div>
+      <div class="panel quick-panel"><div class="panel-head"><div><h3>Quick actions</h3><p>Keep operations moving</p></div></div><button class="quick-action" onclick="openProductModal()"><span class="qa-icon green">＋</span><span><b>Add inventory item</b><small>Register a product in your catalogue</small></span><strong>↗</strong></button><button class="quick-action" onclick="openSupplierModal()"><span class="qa-icon orange">♧</span><span><b>Add a supplier</b><small>Grow your sourcing network</small></span><strong>↗</strong></button><button class="quick-action" onclick="openOrderModal()"><span class="qa-icon blue">⇄</span><span><b>Create purchase order</b><small>Request a new stock delivery</small></span><strong>↗</strong></button></div></div>
+      <div class="panel recent-panel"><div class="panel-head"><div><h3>Recent purchase orders</h3><p>Latest activity across suppliers</p></div><button class="text-btn" onclick="showView('orders')">All orders ↗</button></div><div class="table-wrap"><table><thead><tr><th>ORDER ID</th><th>SUPPLIER</th><th>DATE</th><th>STATUS</th><th>AMOUNT</th></tr></thead><tbody id="recent-orders"></tbody></table></div></div>
+    </section>
+    <section id="products-view" class="view hidden">
+      <div class="toolbar">
+        <div class="search-wrap">⌕ <input id="product-search" placeholder="Search by product, SKU or category…" oninput="renderProducts()"></div>
+        <select id="product-category-filter" class="filter-select" onchange="renderProducts()" aria-label="Filter by category">
+          <option value="">All Categories</option>
+          <option value="Vegetables">Vegetables</option>
+          <option value="Fruits">Fruits</option>
+          <option value="Dairy">Dairy</option>
+          <option value="Grains">Grains</option>
+          <option value="Meat">Meat</option>
+          <option value="Bakery">Bakery</option>
+        </select>
+        <button class="btn-secondary-action" onclick="exportProductsCsv()">⬇ Export CSV</button>
+        <button class="btn primary" onclick="openProductModal()">＋ Add product</button>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h3>Inventory catalogue</h3><p>Manage product details, pricing and stock thresholds</p></div><span id="product-count" class="count-pill">0 items</span></div>
+        <div class="table-wrap"><table><thead><tr><th>PRODUCT</th><th>SKU</th><th>CATEGORY</th><th>IN STOCK</th><th>UNIT PRICE</th><th>EXPIRY</th><th></th></tr></thead><tbody id="products-table"></tbody></table></div>
+      </div>
+    </section>
+    <section id="suppliers-view" class="view hidden">
+      <div class="toolbar">
+        <div class="search-wrap">⌕ <input id="supplier-search" placeholder="Search suppliers by company, name, email or city…" oninput="renderSuppliers()"></div>
+        <button class="btn-secondary-action" onclick="exportSuppliersCsv()">⬇ Export CSV</button>
+        <button class="btn primary" onclick="openSupplierModal()">＋ Add supplier</button>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h3>Supplier directory</h3><p>People and businesses behind your supply chain</p></div><span id="supplier-count" class="count-pill">0 suppliers</span></div>
+        <div class="table-wrap"><table><thead><tr><th>COMPANY</th><th>CONTACT</th><th>EMAIL</th><th>PHONE</th><th>CITY</th><th>STATUS</th><th></th></tr></thead><tbody id="suppliers-table"></tbody></table></div>
+      </div>
+    </section>
+    <section id="orders-view" class="view hidden">
+      <div class="toolbar">
+        <div class="search-wrap">⇄ <input id="order-search" placeholder="Search purchase orders…" oninput="renderOrders()"></div>
+        <select id="order-status-filter" class="filter-select" onchange="renderOrders()" aria-label="Filter by status">
+          <option value="">All Statuses</option>
+          <option value="PENDING">Pending</option>
+          <option value="APPROVED">Approved</option>
+          <option value="IN_TRANSIT">In Transit</option>
+          <option value="DELIVERED">Delivered</option>
+          <option value="CANCELLED">Cancelled</option>
+        </select>
+        <button class="btn-secondary-action" onclick="exportOrdersCsv()">⬇ Export CSV</button>
+        <button class="btn primary" onclick="openOrderModal()">＋ New order</button>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h3>Purchase order register</h3><p>Monitor procurement progress from pending to delivered</p></div><span id="order-count" class="count-pill">0 orders</span></div>
+        <div class="table-wrap"><table><thead><tr><th>ORDER ID</th><th>SUPPLIER</th><th>DATE</th><th>STATUS</th><th>AMOUNT</th><th>UPDATE STATUS</th></tr></thead><tbody id="orders-table"></tbody></table></div>
+      </div>
+    </section>
+    <footer>FOODFLOW OPERATIONS PLATFORM <span>BUILT WITH JAVA · SPRING BOOT · MYSQL</span></footer>
+  </main>
+</div>
+<div id="modal-backdrop" class="modal-backdrop hidden"><div class="modal"><div class="modal-head"><div><div class="eyebrow">FOODFLOW WORKSPACE</div><h2 id="modal-title">Add record</h2></div><button class="close-btn" onclick="closeModal()">×</button></div><form id="record-form"><div id="modal-fields" class="form-grid"></div><div class="modal-actions"><button type="button" class="btn secondary" onclick="closeModal()">Cancel</button><button type="submit" class="btn primary">Save record <span>→</span></button></div></form></div></div>
+<div id="toast" class="toast"></div>
+<script src="/app.js"></script>
+</body></html>

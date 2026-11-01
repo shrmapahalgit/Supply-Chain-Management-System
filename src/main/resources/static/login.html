@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodFlow | Operator Sign In</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="auth-body">
+  <div class="auth-layout">
+    <!-- Brand / Visual Showcase Pane -->
+    <div class="auth-hero">
+      <div class="auth-hero-content">
+        <div class="brand">
+          <div class="brand-mark">F</div>
+          <div>
+            <b>FoodFlow</b>
+            <small>SUPPLY CHAIN OS</small>
+          </div>
+        </div>
+        <div class="hero-tagline">
+          <span class="eyebrow light">SUSTAINABLE OPERATIONS PLATFORM</span>
+          <h2>Precision food logistics,<br><em>from farm gate to dock.</em></h2>
+          <p>
+            Real-time inventory intelligence, verified supplier networks, and automated purchase orders
+            engineered with Java 21, Spring Boot, and MySQL.
+          </p>
+        </div>
+        <div class="hero-highlights">
+          <div class="highlight-item">
+            <span class="hl-icon">🥬</span>
+            <div>
+              <strong>Fresh Produce Tracking</strong>
+              <small>Perishable batch monitoring & shelf-life controls</small>
+            </div>
+          </div>
+          <div class="highlight-item">
+            <span class="hl-icon">🔒</span>
+            <div>
+              <strong>Enterprise Security</strong>
+              <small>BCrypt password hashing & session-level protection</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="auth-hero-art">
+        <div class="sun"></div>
+        <div class="hill h1"></div>
+        <div class="hill h2"></div>
+        <div class="crate">✳</div>
+      </div>
+    </div>
+
+    <!-- Sign In Form Pane -->
+    <div class="auth-form-pane">
+      <div class="auth-card">
+        <div class="auth-card-head">
+          <div class="mobile-brand">
+            <div class="brand-mark">F</div>
+            <div>
+              <b>FoodFlow</b>
+              <small>SUPPLY CHAIN OS</small>
+            </div>
+          </div>
+          <div class="eyebrow">OPERATOR ACCESS</div>
+          <h1>Sign in to workspace</h1>
+          <p>Enter your credentials to manage inventory, suppliers, and procurement orders.</p>
+        </div>
+
+        <div id="auth-alert" class="auth-alert" role="alert"></div>
+
+        <form id="login-form" novalidate>
+          <div class="auth-field">
+            <label for="login-email">WORK EMAIL</label>
+            <div class="input-wrap">
+              <span class="input-icon">✉</span>
+              <input
+                id="login-email"
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder="name@company.com"
+                autofocus
+              >
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <div class="field-label-row">
+              <label for="login-password">PASSWORD</label>
+            </div>
+            <div class="input-wrap">
+              <span class="input-icon">🔑</span>
+              <input
+                id="login-password"
+                type="password"
+                name="password"
+                required
+                autocomplete="current-password"
+                placeholder="Enter your password"
+              >
+              <button
+                type="button"
+                class="pw-toggle"
+                data-target="login-password"
+                aria-label="Toggle password visibility"
+              >👁</button>
+            </div>
+          </div>
+
+          <button id="login-submit-btn" type="submit" class="btn primary auth-submit">
+            Sign in to FoodFlow <span>→</span>
+          </button>
+        </form>
+
+        <div class="auth-footer-link">
+          <span>Don't have an operator account?</span>
+          <a href="/signup.html">Create an account ↗</a>
+        </div>
+
+        <div class="security-badge">
+          <span class="badge-dot"></span>
+          <span>Protected by Spring Security · BCrypt Encryption · CSRF Guard</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/auth.js"></script>
+</body>
+</html>

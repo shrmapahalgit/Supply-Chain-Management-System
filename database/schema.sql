@@ -1,0 +1,68 @@
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS suppliers;
+SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE suppliers (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  company_name VARCHAR(120) NOT NULL,
+  contact_name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  phone VARCHAR(30) NOT NULL,
+  city VARCHAR(80) NOT NULL,
+  status ENUM('ACTIVE','INACTIVE') NOT NULL DEFAULT 'ACTIVE',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE products (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  sku VARCHAR(40) NOT NULL UNIQUE,
+  name VARCHAR(120) NOT NULL,
+  category VARCHAR(60) NOT NULL,
+  quantity INT NOT NULL DEFAULT 0,
+  reorder_level INT NOT NULL DEFAULT 10,
+  unit_price DECIMAL(10,2) NOT NULL,
+  expiry_date DATE NULL,
+  supplier_id BIGINT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_product_supplier FOREIGN KEY (supplier_id) REFERENCES suppliers(id) ON DELETE SET NULL,
+  CONSTRAINT chk_product_quantity CHECK (quantity >= 0),
+  CONSTRAINT chk_reorder_level CHECK (reorder_level >= 0),
+  CONSTRAINT chk_product_price CHECK (unit_price >= 0)
+);
+
+CREATE TABLE orders (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  order_code VARCHAR(30) NOT NULL UNIQUE,
+  supplier_id BIGINT NOT NULL,
+  order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  status ENUM('PENDING','APPROVED','IN_TRANSIT','DELIVERED','CANCELLED') NOT NULL DEFAULT 'PENDING',
+  total_amount DECIMAL(12,2) NOT NULL DEFAULT 0,
+  notes VARCHAR(500) NULL,
+  CONSTRAINT fk_order_supplier FOREIGN KEY (supplier_id) REFERENCES suppliers(id)
+);
+
+CREATE TABLE order_items (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  order_id BIGINT NOT NULL,
+  product_id BIGINT NOT NULL,
+  quantity INT NOT NULL,
+  unit_price DECIMAL(10,2) NOT NULL,
+  line_total DECIMAL(12,2) NOT NULL,
+  CONSTRAINT fk_item_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  CONSTRAINT fk_item_product FOREIGN KEY (product_id) REFERENCES products(id),
+  CONSTRAINT chk_order_item_quantity CHECK (quantity > 0)
+);
+
+CREATE TABLE IF NOT EXISTS users (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  full_name VARCHAR(120) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  phone VARCHAR(30) NULL,
+  role VARCHAR(30) NOT NULL DEFAULT 'ROLE_USER',
+  status ENUM('ACTIVE','INACTIVE') NOT NULL DEFAULT 'ACTIVE',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodFlow | Operator Registration</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="auth-body">
+  <div class="auth-layout">
+    <!-- Brand / Visual Showcase Pane -->
+    <div class="auth-hero">
+      <div class="auth-hero-content">
+        <div class="brand">
+          <div class="brand-mark">F</div>
+          <div>
+            <b>FoodFlow</b>
+            <small>SUPPLY CHAIN OS</small>
+          </div>
+        </div>
+        <div class="hero-tagline">
+          <span class="eyebrow light">NEW OPERATOR ONBOARDING</span>
+          <h2>Join the trusted network for<br><em>transparent food supply.</em></h2>
+          <p>
+            Create your operator account to track fresh stock, manage verified agricultural suppliers,
+            and monitor procurement workflows across your kitchen network.
+          </p>
+        </div>
+        <div class="hero-highlights">
+          <div class="highlight-item">
+            <span class="hl-icon">👥</span>
+            <div>
+              <strong>Role-Based Access</strong>
+              <small>New accounts default securely to Standard Operator role</small>
+            </div>
+          </div>
+          <div class="highlight-item">
+            <span class="hl-icon">⚡</span>
+            <div>
+              <strong>Instant Workspace Setup</strong>
+              <small>Connected directly to your local MySQL inventory database</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="auth-hero-art">
+        <div class="sun"></div>
+        <div class="hill h1"></div>
+        <div class="hill h2"></div>
+        <div class="crate">✳</div>
+      </div>
+    </div>
+
+    <!-- Registration Form Pane -->
+    <div class="auth-form-pane">
+      <div class="auth-card">
+        <div class="auth-card-head">
+          <div class="mobile-brand">
+            <div class="brand-mark">F</div>
+            <div>
+              <b>FoodFlow</b>
+              <small>SUPPLY CHAIN OS</small>
+            </div>
+          </div>
+          <div class="eyebrow">OPERATOR ONBOARDING</div>
+          <h1>Create operator account</h1>
+          <p>Register with your work details to access the supply chain management console.</p>
+        </div>
+
+        <div id="auth-alert" class="auth-alert" role="alert"></div>
+
+        <form id="signup-form" novalidate>
+          <div class="auth-field">
+            <label for="signup-name">FULL NAME</label>
+            <div class="input-wrap">
+              <span class="input-icon">👤</span>
+              <input
+                id="signup-name"
+                type="text"
+                name="fullName"
+                required
+                autocomplete="name"
+                placeholder="e.g. Ananya Mehta"
+                autofocus
+              >
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <label for="signup-email">WORK EMAIL</label>
+            <div class="input-wrap">
+              <span class="input-icon">✉</span>
+              <input
+                id="signup-email"
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder="ananya@company.com"
+              >
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <label for="signup-phone">PHONE NUMBER <small>(OPTIONAL)</small></label>
+            <div class="input-wrap">
+              <span class="input-icon">📱</span>
+              <input
+                id="signup-phone"
+                type="tel"
+                name="phone"
+                autocomplete="tel"
+                placeholder="+91 98765 11001"
+              >
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <div class="field-label-row">
+              <label for="signup-password">PASSWORD</label>
+              <span id="strength-text" class="field-hint">Minimum 8 characters</span>
+            </div>
+            <div class="input-wrap">
+              <span class="input-icon">🔑</span>
+              <input
+                id="signup-password"
+                type="password"
+                name="password"
+                required
+                minlength="8"
+                autocomplete="new-password"
+                placeholder="Create a secure password"
+              >
+              <button
+                type="button"
+                class="pw-toggle"
+                data-target="signup-password"
+                aria-label="Toggle password visibility"
+              >👁</button>
+            </div>
+            <div class="strength-track">
+              <div id="strength-bar" class="strength-bar"></div>
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <label for="signup-confirm-password">CONFIRM PASSWORD</label>
+            <div class="input-wrap">
+              <span class="input-icon">✓</span>
+              <input
+                id="signup-confirm-password"
+                type="password"
+                name="confirmPassword"
+                required
+                autocomplete="new-password"
+                placeholder="Re-type your password"
+              >
+              <button
+                type="button"
+                class="pw-toggle"
+                data-target="signup-confirm-password"
+                aria-label="Toggle confirm password visibility"
+              >👁</button>
+            </div>
+          </div>
+
+          <div class="role-notice">
+            <span class="notice-icon">ℹ</span>
+            <div>
+              <strong>Security Policy:</strong>
+              Public registration assigns the standard <code>ROLE_USER</code> role. Administrative access
+              is restricted to protect production supply chain records.
+            </div>
+          </div>
+
+          <button id="signup-submit-btn" type="submit" class="btn primary auth-submit">
+            Create operator account <span>→</span>
+          </button>
+        </form>
+
+        <div class="auth-footer-link">
+          <span>Already have an account?</span>
+          <a href="/login.html">Sign in here ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/auth.js"></script>
+</body>
+</html>
